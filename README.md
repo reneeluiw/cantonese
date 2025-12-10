@@ -1,4 +1,4 @@
-# Renee's cantonese@Renee有料到
+# Renee's cantonese Xiaohongshu/小红书:@Renee有料到
 a simple tool to empower your Cantonese learning 
 
 使用说明：
