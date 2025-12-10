@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renee粤语学习合集</title>
+    <title>Renee Interactive Cantonese 粤语反应练习</title>
     <style>
         * {
             margin: 0;
@@ -37,6 +37,7 @@
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
         }
         
         h1 {
@@ -303,12 +304,302 @@
             display: block;
         }
         
+        /* 造句练习样式 */
+        .sentence-builder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .sentence-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .sentence-part {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 180px;
+            flex: 1;
+        }
+        
+        .part-label {
+            background-color: #1e3c72;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .word-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .word-option {
+            background-color: #f5f7fa;
+            border: 1px solid #d1d9e6;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex-grow: 1;
+            position: relative;
+            min-width: 80px;
+            font-size: 1.2rem;
+        }
+        
+        .word-option:hover {
+            background-color: #e3e8f0;
+            transform: translateY(-2px);
+        }
+        
+        .word-option.active {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        .word-option.active .jyutping {
+            color: #ffebee;
+        }
+        
+        .word-option.active .translation {
+            color: #ffebee;
+        }
+        
+        .jyutping {
+            display: block;
+            font-size: 0.9rem;
+            color: #e74c3c;
+            margin-top: 3px;
+            font-family: monospace;
+        }
+        
+        .translation {
+            display: block;
+            font-size: 0.9rem;
+            color: #3498db;
+            margin-top: 2px;
+        }
+        
+        .plus {
+            font-size: 1.8rem;
+            color: #3498db;
+            font-weight: bold;
+            background-color: #e3f2fd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sentence-display-container {
+            width: 100%;
+            position: relative;
+        }
+        
+        .sentence-display {
+            background-color: #f8f9fa;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            padding: 20px 60px 20px 20px;
+            margin-top: 20px;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sentence-display:hover {
+            background-color: #eef5ff;
+        }
+        
+        .speaker-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .speaker-icon:hover {
+            background-color: #2980b9;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .sentence-translation {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #1e3c72;
+        }
+        
+        .examples {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .examples h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .example-item-sentence {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: white;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-right: 50px;
+        }
+        
+        .example-item-sentence:hover {
+            background-color: #f0f7ff;
+            transform: translateX(5px);
+        }
+        
+        .example-item-sentence .speaker-icon {
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+        }
+        
+        .example-cantonese-sentence {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .example-mandarin-sentence {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .example-english-sentence {
+            color: #3498db;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .combined-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .combined-part {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 180px;
+        }
+        
+        .usage-type {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        /* 使用说明样式 */
+        .readme-section {
+            margin-top: 40px;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .readme-section h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .readme-list {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .readme-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .readme-list a {
+            color: #1A365D;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .readme-list a:hover {
+            text-decoration: underline;
+        }
+        
         .footer {
             text-align: center;
             padding: 20px;
             background: #f0f0f0;
             color: #666;
             font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        .footer a {
+            color: #1A365D;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
         }
         
         @media (max-width: 768px) {
@@ -331,6 +622,32 @@
             .module-title {
                 font-size: 1.2rem;
             }
+            
+            .sentence-flow, .combined-row {
+                flex-direction: column;
+            }
+            
+            .plus {
+                transform: rotate(90deg);
+            }
+            
+            .sentence-part, .combined-part {
+                min-width: 100%;
+            }
+            
+            .sentence-display {
+                padding: 15px 50px 15px 15px;
+                font-size: 1.2rem;
+            }
+            
+            .speaker-icon {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .word-option {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -338,23 +655,27 @@
     <div class="container">
         <header>
             <button class="back-btn" id="backBtn">← 返回首页</button>
-            <h1>Renee粤语学习合集</h1>
-            <p class="subtitle">Cantonese Learning Collection</p>
-            <p class="subtitle">点击下方卡片开始学习</p>
+            <h1>Renee Interactive Cantonese 粤语反应练习</h1>
         </header>
         
         <div class="content">
             <!-- 首页内容 -->
             <div class="home-content" id="homeContent">
                 <div class="instructions">
-                    共包含6个粤语学习模块，点击卡片即可开始相应练习
+                    共包含9个粤语学习模块，点击卡片即可开始相应练习
                 </div>
                 
                 <div class="module-grid">
-                    <div class="module-card" data-module="body-pain">
-                        <div class="module-icon">🩺</div>
-                        <div class="module-title">身体疼痛词汇</div>
-                        <div class="module-desc">学习20个关于身体疼痛的粤语词汇</div>
+                    <div class="module-card" data-module="basic-verbs">
+                        <div class="module-icon">🚶</div>
+                        <div class="module-title">基本动词</div>
+                        <div class="module-desc">学习20个基本动作和移动动词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="daily-verbs">
+                        <div class="module-icon">🏃</div>
+                        <div class="module-title">日常动词</div>
+                        <div class="module-desc">学习20个日常生活常用动词</div>
                     </div>
                     
                     <div class="module-card" data-module="adjectives1">
@@ -369,22 +690,34 @@
                         <div class="module-desc">学习20个更多日常形容词</div>
                     </div>
                     
-                    <div class="module-card" data-module="daily-verbs">
-                        <div class="module-icon">🏃</div>
-                        <div class="module-title">日常动词</div>
-                        <div class="module-desc">学习20个日常生活常用动词</div>
-                    </div>
-                    
-                    <div class="module-card" data-module="basic-verbs">
-                        <div class="module-icon">🚶</div>
-                        <div class="module-title">基本动词</div>
-                        <div class="module-desc">学习20个基本动作和移动动词</div>
-                    </div>
-                    
                     <div class="module-card" data-module="adverbs">
                         <div class="module-icon">📊</div>
                         <div class="module-title">程度副词</div>
                         <div class="module-desc">学习20个描述程度的副词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="body-pain">
+                        <div class="module-icon">🩺</div>
+                        <div class="module-title">身体疼痛词汇</div>
+                        <div class="module-desc">学习20个关于身体疼痛的粤语词汇</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="sentence1">
+                        <div class="module-icon">🔤</div>
+                        <div class="module-title">造句练习 - 主谓地点动词</div>
+                        <div class="module-desc">主语 + 谓语 + 地点 + 动词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="sentence2">
+                        <div class="module-icon">📖</div>
+                        <div class="module-title">造句练习 - 程度副词</div>
+                        <div class="module-desc">这/那+量词+名词+这么/那么+形容词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="sentence3">
+                        <div class="module-icon">💬</div>
+                        <div class="module-title">造句练习 - 高频词"噉"</div>
+                        <div class="module-desc">主语 + "噉" + 动词 + 副词 + 形容词</div>
                     </div>
                 </div>
             </div>
@@ -393,10 +726,20 @@
             <div class="module-content" id="moduleContainer">
                 <!-- 模块内容会动态加载到这里 -->
             </div>
+            
+            <!-- 使用说明部分 -->
+            <div class="readme-section">
+                <h2>Readme/使用说明</h2>
+                <ol class="readme-list">
+                    <li>请使用Chrome浏览器打开网页</li>
+                    <li>确保海外网络环境（否则读音无法识别HK Cantonese）</li>
+                    <li>AI粤语技术还不成熟，5%~10%概率无法读对粤拼。本网页用于反应练习，准确读音请以Renee的学习视频为准（<a href="https://ai.feishu.cn/docx/NfJvdPpEvox3qHxdS8jcCCqWnBc?from=from_copylink" target="_blank">《90天自学讲粤语》点读电子书</a>，<a href="https://xhslink.com/m/4Rwb8oNqKLD" target="_blank">Renee的店铺</a>可售）。</li>
+                </ol>
+            </div>
         </div>
         
         <div class="footer">
-            <p>Renee Cantonese Learning &copy; 2023 | 粤语学习合集</p>
+            <p>Renee Found Something©  | 小红书: <a href="https://www.xiaohongshu.com/user/profile/560a998ab7ba220c9f079dbb?xsec_token=ABZSa2R2scFM-GWaP3FOJ2Yh-tIpVmCGi_4FB7a4iMWF4%3D&xsec_source=pc_search" target="_blank">@Renee有料到</a></p>
         </div>
     </div>
 
@@ -1626,7 +1969,7 @@
                 cantonesePinyin: "Nei5 zi1 m4 zi1 ngo5 gei2 gam2 daam1 sam1 nei5?"
             }
         ];
-
+        
         // ========== 页面交互功能 ==========
         document.addEventListener('DOMContentLoaded', function() {
             const backBtn = document.getElementById('backBtn');
@@ -1695,6 +2038,15 @@
                     moduleTitle = '程度副词';
                     moduleDesc = '学习20个描述程度的副词';
                     break;
+                case 'sentence1':
+                    loadSentenceBuilder1();
+                    return;
+                case 'sentence2':
+                    loadSentenceBuilder2();
+                    return;
+                case 'sentence3':
+                    loadSentenceBuilder3();
+                    return;
             }
             
             // 生成模块HTML
@@ -1784,6 +2136,905 @@
                 
                 container.appendChild(exampleItem);
             });
+        }
+        
+        // ========== 造句练习1 ==========
+        function loadSentenceBuilder1() {
+            const moduleHTML = `
+                <div class="module-content active">
+                    <h2 class="module-h2">Renee粤语造句练习 - 主谓+地点+动词</h2>
+                    <div class="instructions">主语 + 谓语 + 地点 + 动词</div>
+                    
+                    <div class="sentence-builder">
+                        <div class="sentence-flow">
+                            <div class="sentence-part">
+                                <div class="part-label">主语 (Subject)</div>
+                                <div class="word-options" id="subjectOptions1"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">谓语 (Predicate)</div>
+                                <div class="word-options" id="predicateOptions1"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">地点 (Location)</div>
+                                <div class="word-options" id="locationOptions1"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">动词 (Verb)</div>
+                                <div class="word-options" id="verbOptions1"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentence-display-container">
+                            <div class="sentence-display" id="sentenceDisplay1">
+                                请选择词语构建句子...
+                            </div>
+                            <div class="speaker-icon" id="sentenceSpeaker1">
+                                🔊
+                            </div>
+                        </div>
+                        <div class="sentence-translation" id="sentenceTranslation1">
+                            句子翻译将在这里显示
+                        </div>
+                    </div>
+                    
+                    <div class="examples">
+                        <h2>使用示例 (点击例句可播放发音)</h2>
+                        <div class="example-item-sentence" data-sentence="我哋去呢度食饭。" data-translation="我们去这里吃饭。">
+                            <div class="example-cantonese-sentence">我哋去呢度食饭。</div>
+                            <div class="example-mandarin-sentence">我们去这里吃饭。</div>
+                            <div class="example-english-sentence">We go here to eat.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="佢哋喺嗰边返工。" data-translation="他们在那边上班。">
+                            <div class="example-cantonese-sentence">佢哋喺嗰边返工。</div>
+                            <div class="example-mandarin-sentence">他们在那边上班。</div>
+                            <div class="example-english-sentence">They are there to work.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="你返呢边睇书。" data-translation="你回这边看书。">
+                            <div class="example-cantonese-sentence">你返呢边睇书。</div>
+                            <div class="example-mandarin-sentence">你回这边看书。</div>
+                            <div class="example-english-sentence">You come back here to read.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="人哋去嗰度饮嘢。" data-translation="别人去那里喝东西。">
+                            <div class="example-cantonese-sentence">人哋去嗰度饮嘢。</div>
+                            <div class="example-mandarin-sentence">别人去那里喝东西。</div>
+                            <div class="example-english-sentence">Others go there to drink.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const moduleContainer = document.getElementById('moduleContainer');
+            moduleContainer.innerHTML = moduleHTML;
+            
+            // 填充选项
+            const subjectOptions1 = [
+                { word: "我", jyutping: "ngo5", translation: "我" },
+                { word: "你", jyutping: "nei5", translation: "你" },
+                { word: "佢", jyutping: "keoi5", translation: "他/她" },
+                { word: "人哋", jyutping: "jan4 dei6", translation: "别人" },
+                { word: "我哋", jyutping: "ngo5 dei6", translation: "我们" },
+                { word: "你哋", jyutping: "nei5 dei6", translation: "你们" },
+                { word: "佢哋", jyutping: "keoi5 dei6", translation: "他们" }
+            ];
+            
+            const predicateOptions1 = [
+                { word: "喺", jyutping: "hai2", translation: "在" },
+                { word: "去", jyutping: "heoi3", translation: "去" },
+                { word: "返", jyutping: "faan1", translation: "回" },
+                { word: "嚟", jyutping: "lai4", translation: "来" }
+            ];
+            
+            const locationOptions1 = [
+                { word: "呢度", jyutping: "ni1 dou6", translation: "这里" },
+                { word: "嗰度", jyutping: "go2 dou6", translation: "那里" },
+                { word: "呢边", jyutping: "ni1 bin1", translation: "这边" },
+                { word: "嗰边", jyutping: "go2 bin1", translation: "那边" }
+            ];
+            
+            const verbOptions1 = [
+                { word: "返工", jyutping: "faan1 gung1", translation: "上班" },
+                { word: "食饭", jyutping: "sik6 faan6", translation: "吃饭" },
+                { word: "睇书", jyutping: "tai2 syu1", translation: "看书" },
+                { word: "饮嘢", jyutping: "jam2 je5", translation: "喝东西" }
+            ];
+            
+            populateOptions("subjectOptions1", subjectOptions1, "subject1");
+            populateOptions("predicateOptions1", predicateOptions1, "predicate1");
+            populateOptions("locationOptions1", locationOptions1, "location1");
+            populateOptions("verbOptions1", verbOptions1, "verb1");
+            
+            // 初始化造句练习
+            initSentenceBuilder1();
+        }
+        
+        // ========== 造句练习2 ==========
+        function loadSentenceBuilder2() {
+            const moduleHTML = `
+                <div class="module-content active">
+                    <h2 class="module-h2">Renee粤语造句练习 - 程度副词</h2>
+                    <div class="instructions">这/那+量词+名词+这么/那么+形容词</div>
+                    
+                    <div class="sentence-builder">
+                        <div class="sentence-flow">
+                            <div class="combined-row">
+                                <div class="combined-part">
+                                    <div class="part-label">指示词 (Demonstrative)</div>
+                                    <div class="word-options" id="demonstrativeOptions2"></div>
+                                </div>
+                                
+                                <div class="plus">+</div>
+                                
+                                <div class="combined-part">
+                                    <div class="part-label">量词 (Classifier)</div>
+                                    <div class="word-options" id="classifierOptions2"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">名词 (Noun)</div>
+                                <div class="word-options" id="nounOptions2"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">程度副词 (Adverb)</div>
+                                <div class="word-options" id="adverbOptions2"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">形容词 (Adjective)</div>
+                                <div class="word-options" id="adjectiveOptions2"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentence-display-container">
+                            <div class="sentence-display" id="sentenceDisplay2">
+                                请选择词语构建句子...
+                            </div>
+                            <div class="speaker-icon" id="sentenceSpeaker2">
+                                🔊
+                            </div>
+                        </div>
+                        <div class="sentence-translation" id="sentenceTranslation2">
+                            句子翻译将在这里显示
+                        </div>
+                    </div>
+                    
+                    <div class="examples">
+                        <h2>使用示例 (点击例句可播放发音)</h2>
+                        <div class="example-item-sentence" data-sentence="呢个人咁靓。" data-translation="这个人这么漂亮。">
+                            <div class="example-cantonese-sentence">呢个人咁靓。</div>
+                            <div class="example-mandarin-sentence">这个人这么漂亮。</div>
+                            <div class="example-english-sentence">This person is so beautiful.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="嗰间屋好大。" data-translation="那间房子很大。">
+                            <div class="example-cantonese-sentence">嗰间屋好大。</div>
+                            <div class="example-mandarin-sentence">那间房子很大。</div>
+                            <div class="example-english-sentence">That house is really big.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="呢杯水有啲冻。" data-translation="这杯水有点冷。">
+                            <div class="example-cantonese-sentence">呢杯水有啲冻。</div>
+                            <div class="example-mandarin-sentence">这杯水有点冷。</div>
+                            <div class="example-english-sentence">This cup of water is a bit cold.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="嗰本书唔系好贵。" data-translation="那本书不是很贵。">
+                            <div class="example-cantonese-sentence">嗰本书唔系好贵。</div>
+                            <div class="example-mandarin-sentence">那本书不是很贵。</div>
+                            <div class="example-english-sentence">That book is not very expensive.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="呢部车几咁快！" data-translation="这辆车多么快！">
+                            <div class="example-cantonese-sentence">呢部车几咁快！</div>
+                            <div class="example-mandarin-sentence">这辆车多么快！</div>
+                            <div class="example-english-sentence">How fast this car is!</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="嗰个后生仔好叻。" data-translation="那个年轻男生很聪明。">
+                            <div class="example-cantonese-sentence">嗰个后生仔好叻。</div>
+                            <div class="example-mandarin-sentence">那个年轻男生很聪明。</div>
+                            <div class="example-english-sentence">That young man is very smart.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="呢个后生女好靓。" data-translation="这个年轻女生很漂亮。">
+                            <div class="example-cantonese-sentence">呢个后生女好靓。</div>
+                            <div class="example-mandarin-sentence">这个年轻女生很漂亮。</div>
+                            <div class="example-english-sentence">This young lady is very beautiful.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const moduleContainer = document.getElementById('moduleContainer');
+            moduleContainer.innerHTML = moduleHTML;
+            
+            // 填充选项
+            const demonstrativeOptions2 = [
+                { word: "呢", jyutping: "ni1", translation: "这" },
+                { word: "嗰", jyutping: "go2", translation: "那" }
+            ];
+            
+            const classifierOptions2 = [
+                { word: "个", jyutping: "go3", translation: "个" },
+                { word: "本", jyutping: "bun2", translation: "本" },
+                { word: "部", jyutping: "bou6", translation: "部" },
+                { word: "间", jyutping: "gaan1", translation: "间" },
+                { word: "件", jyutping: "gin6", translation: "件" },
+                { word: "杯", jyutping: "bui1", translation: "杯" }
+            ];
+            
+            const nounOptions2 = [
+                { word: "人", jyutping: "jan4", translation: "人" },
+                { word: "细路", jyutping: "sai3 lou6", translation: "小孩子" },
+                { word: "后生仔", jyutping: "hau6 saang1 zai2", translation: "年轻男生" },
+                { word: "后生女", jyutping: "hau6 saang1 neoi5", translation: "年轻女生" },
+                { word: "书", jyutping: "syu1", translation: "书" },
+                { word: "车", jyutping: "ce1", translation: "车" },
+                { word: "屋", jyutping: "uk1", translation: "房子" },
+                { word: "学校", jyutping: "hok6 haau6", translation: "学校" },
+                { word: "衫", jyutping: "sam1", translation: "衣服" },
+                { word: "水", jyutping: "seoi2", translation: "水" }
+            ];
+            
+            const adverbOptions2 = [
+                { word: "咁", jyutping: "gam2", translation: "这么" },
+                { word: "几咁", jyutping: "gei2 gam2", translation: "多么" },
+                { word: "好", jyutping: "hou2", translation: "很" },
+                { word: "几", jyutping: "gei2", translation: "挺" },
+                { word: "唔系好", jyutping: "m4 hai6 hou2", translation: "不是很" },
+                { word: "有啲", jyutping: "jau5 di1", translation: "有点" }
+            ];
+            
+            const adjectiveOptions2 = [
+                { word: "好", jyutping: "hou2", translation: "好" },
+                { word: "差", jyutping: "caa1", translation: "差" },
+                { word: "衰", jyutping: "seoi1", translation: "坏、糟糕" },
+                { word: "叻", jyutping: "lek1", translation: "聪明，能干" },
+                { word: "蠢", jyutping: "ceon2", translation: "笨" },
+                { word: "靓", jyutping: "leng3", translation: "漂亮" },
+                { word: "快", jyutping: "faai3", translation: "快" },
+                { word: "慢", jyutping: "maan6", translation: "慢" },
+                { word: "大", jyutping: "daai6", translation: "大" },
+                { word: "细", jyutping: "sai3", translation: "小" },
+                { word: "冻", jyutping: "dung3", translation: "冷" },
+                { word: "热", jyutping: "jit6", translation: "热" }
+            ];
+            
+            populateOptions("demonstrativeOptions2", demonstrativeOptions2, "demonstrative2");
+            populateOptions("classifierOptions2", classifierOptions2, "classifier2");
+            populateOptions("nounOptions2", nounOptions2, "noun2");
+            populateOptions("adverbOptions2", adverbOptions2, "adverb2");
+            populateOptions("adjectiveOptions2", adjectiveOptions2, "adjective2");
+            
+            // 初始化造句练习
+            initSentenceBuilder2();
+        }
+        
+        // ========== 造句练习3 ==========
+        function loadSentenceBuilder3() {
+            const moduleHTML = `
+                <div class="module-content active">
+                    <h2 class="module-h2">Renee粤语造句练习 - 高频词"噉"</h2>
+                    <div class="instructions">主语 + "噉" + 动词 + 副词 + 形容词 + 语气助词</div>
+                    
+                    <div class="sentence-builder">
+                        <div class="sentence-flow">
+                            <div class="sentence-part">
+                                <div class="part-label">主语 (Subject)</div>
+                                <div class="word-options" id="subjectOptions3"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">"噉"</div>
+                                <div class="word-options" id="gamOptions3"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">动词 (Verb)</div>
+                                <div class="word-options" id="verbOptions3"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">副词 (Adverb)</div>
+                                <div class="word-options" id="adverbOptions3"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">形容词 (Adjective)</div>
+                                <div class="word-options" id="adjectiveOptions3"></div>
+                            </div>
+                            
+                            <div class="plus">+</div>
+                            
+                            <div class="sentence-part">
+                                <div class="part-label">语气助词 (Particle)</div>
+                                <div class="word-options" id="particleOptions3"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentence-display-container">
+                            <div class="sentence-display" id="sentenceDisplay3">
+                                请选择词语构建句子...
+                            </div>
+                            <div class="speaker-icon" id="sentenceSpeaker3">
+                                🔊
+                            </div>
+                        </div>
+                        <div class="sentence-translation" id="sentenceTranslation3">
+                            句子翻译将在这里显示
+                        </div>
+                    </div>
+                    
+                    <div class="examples">
+                        <h2>使用示例 (点击例句可播放发音)</h2>
+                        
+                        <div class="usage-type">1. 表示方式或状态（相当于普通话的"这样"）</div>
+                        <div class="example-item-sentence" data-sentence="你噉睇就啱喇。" data-translation="你这样看就对了。">
+                            <div class="example-cantonese-sentence">你噉睇就啱喇。</div>
+                            <div class="example-mandarin-sentence">你这样看就对了。</div>
+                            <div class="example-english-sentence">It's right for you to see it this way.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="佢噉做咪得啰。" data-translation="他这样做不就行了？">
+                            <div class="example-cantonese-sentence">佢噉做咪得啰。</div>
+                            <div class="example-mandarin-sentence">他这样做不就行了？</div>
+                            <div class="example-english-sentence">Wouldn't it be okay if he does it this way?</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="佢噉讲仲衰。" data-translation="他这么说更加糟糕了。">
+                            <div class="example-cantonese-sentence">佢噉讲仲衰。</div>
+                            <div class="example-mandarin-sentence">他这么说更加糟糕了。</div>
+                            <div class="example-english-sentence">It's even worse for him to say it this way.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="佢哋噉睇都啱。" data-translation="他们这样看也对。">
+                            <div class="example-cantonese-sentence">佢哋噉睇都啱。</div>
+                            <div class="example-mandarin-sentence">他们这样看也对。</div>
+                            <div class="example-english-sentence">It's also right for them to see it this way.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="我哋噉搞唔系几好。" data-translation="我们这样弄不是很好。">
+                            <div class="example-cantonese-sentence">我哋噉搞唔系几好。</div>
+                            <div class="example-mandarin-sentence">我们这样弄不是很好。</div>
+                            <div class="example-english-sentence">It's not very good for us to handle it this way.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="佢哋噉使钱都得。" data-translation="他们这样花钱也行。">
+                            <div class="example-cantonese-sentence">佢哋噉使钱都得。</div>
+                            <div class="example-mandarin-sentence">他们这样花钱也行。</div>
+                            <div class="example-english-sentence">It's also okay for them to spend money this way.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        
+                        <div class="usage-type">2. 引述内容（相当于"那"）</div>
+                        <div class="example-item-sentence" data-sentence="噉你点算？" data-translation="那你怎么办？">
+                            <div class="example-cantonese-sentence">噉你点算？</div>
+                            <div class="example-mandarin-sentence">那你怎么办？</div>
+                            <div class="example-english-sentence">Then what will you do?</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="噉你快啲啦！" data-translation="那你快一点！">
+                            <div class="example-cantonese-sentence">噉你快啲啦！</div>
+                            <div class="example-mandarin-sentence">那你快一点！</div>
+                            <div class="example-english-sentence">Then hurry up!</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        
+                        <div class="usage-type">3. 表示承接（相当于"这样"）</div>
+                        <div class="example-item-sentence" data-sentence="噉啦，我哋听日再倾。" data-translation="这样吧，我们明天再谈。">
+                            <div class="example-cantonese-sentence">噉啦，我哋听日再倾。</div>
+                            <div class="example-mandarin-sentence">这样吧，我们明天再谈。</div>
+                            <div class="example-english-sentence">Well then, let's talk again tomorrow.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                        <div class="example-item-sentence" data-sentence="噉嘅话，我哋走先喇。" data-translation="这样的话，我们就先走了。">
+                            <div class="example-cantonese-sentence">噉嘅话，我哋走先喇。</div>
+                            <div class="example-mandarin-sentence">这样的话，我们就先走了。</div>
+                            <div class="example-english-sentence">In that case, we'll leave first.</div>
+                            <div class="speaker-icon">🔊</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const moduleContainer = document.getElementById('moduleContainer');
+            moduleContainer.innerHTML = moduleHTML;
+            
+            // 填充选项
+            const subjectOptions3 = [
+                { word: "你", jyutping: "nei5", translation: "你" },
+                { word: "佢", jyutping: "keoi5", translation: "他/她" },
+                { word: "佢哋", jyutping: "keoi5 dei6", translation: "他们" },
+                { word: "我哋", jyutping: "ngo5 dei6", translation: "我们" }
+            ];
+            
+            const gamOptions3 = [
+                { word: "噉", jyutping: "gam2", translation: "这样" }
+            ];
+            
+            const verbOptions3 = [
+                { word: "睇", jyutping: "tai2", translation: "看" },
+                { word: "讲", jyutping: "gong2", translation: "说" },
+                { word: "做", jyutping: "zou6", translation: "做" },
+                { word: "搞", jyutping: "gaau2", translation: "弄" },
+                { word: "使钱", jyutping: "sai2 cin2", translation: "花钱" },
+                { word: "慳钱", jyutping: "haan1 cin2", translation: "省钱" }
+            ];
+            
+            const adverbOptions3 = [
+                { word: "就", jyutping: "zau6", translation: "就" },
+                { word: "唔", jyutping: "m4", translation: "不" },
+                { word: "咪", jyutping: "mai6", translation: "不就" },
+                { word: "仲", jyutping: "zung6", translation: "更加" },
+                { word: "都", jyutping: "dou1", translation: "也" },
+                { word: "唔系几", jyutping: "m4 hai6 gei2", translation: "不是很" }
+            ];
+            
+            const adjectiveOptions3 = [
+                { word: "好", jyutping: "hou2", translation: "好" },
+                { word: "错", jyutping: "co3", translation: "错" },
+                { word: "啱", jyutping: "ngaam1", translation: "对" },
+                { word: "得", jyutping: "dak1", translation: "行（可以）" },
+                { word: "衰", jyutping: "seoi1", translation: "糟糕" },
+                { word: "弊", jyutping: "bai6", translation: "坏了" }
+            ];
+            
+            const particleOptions3 = [
+                { word: "啦", jyutping: "laa1", translation: "啦" },
+                { word: "啰", jyutping: "lo1", translation: "啰" },
+                { word: "吖", jyutping: "aa1", translation: "吖" },
+                { word: "喇", jyutping: "laa3", translation: "喇" }
+            ];
+            
+            populateOptions("subjectOptions3", subjectOptions3, "subject3");
+            populateOptions("gamOptions3", gamOptions3, "gam3");
+            populateOptions("verbOptions3", verbOptions3, "verb3");
+            populateOptions("adverbOptions3", adverbOptions3, "adverb3");
+            populateOptions("adjectiveOptions3", adjectiveOptions3, "adjective3");
+            populateOptions("particleOptions3", particleOptions3, "particle3");
+            
+            // 设置"噉"为默认选中
+            document.querySelector('#gamOptions3 .word-option').classList.add('active');
+            
+            // 初始化造句练习
+            initSentenceBuilder3();
+        }
+        
+        // ========== 填充选项函数 ==========
+        function populateOptions(containerId, options, dataPart) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            options.forEach(option => {
+                const wordOption = document.createElement('div');
+                wordOption.className = 'word-option';
+                wordOption.setAttribute('data-part', dataPart);
+                wordOption.setAttribute('data-jyutping', option.jyutping);
+                wordOption.setAttribute('data-translation', option.translation);
+                wordOption.innerHTML = `
+                    ${option.word}
+                    <span class="jyutping">${option.jyutping}</span>
+                    <span class="translation">${option.translation}</span>
+                `;
+                container.appendChild(wordOption);
+            });
+        }
+        
+        // ========== 初始化造句练习1 ==========
+        function initSentenceBuilder1() {
+            const wordOptions = document.querySelectorAll('#subjectOptions1 .word-option, #predicateOptions1 .word-option, #locationOptions1 .word-option, #verbOptions1 .word-option');
+            const exampleItems = document.querySelectorAll('.example-item-sentence');
+            const sentenceDisplay = document.getElementById('sentenceDisplay1');
+            const sentenceSpeaker = document.getElementById('sentenceSpeaker1');
+            const sentenceTranslation = document.getElementById('sentenceTranslation1');
+            
+            // 存储当前选择的词语
+            const selectedWords = {
+                subject1: { word: '', translation: '' },
+                predicate1: { word: '', translation: '' },
+                location1: { word: '', translation: '' },
+                verb1: { word: '', translation: '' }
+            };
+            
+            // 为每个词语选项添加点击事件
+            wordOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const part = this.getAttribute('data-part');
+                    const word = this.textContent.trim().split('\n')[0];
+                    const jyutping = this.getAttribute('data-jyutping');
+                    const translation = this.getAttribute('data-translation');
+                    
+                    // 播放发音
+                    speakCantonese(word);
+                    
+                    // 如果是同一部分的词语，切换选中状态
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        selectedWords[part] = { word: '', translation: '' };
+                    } else {
+                        // 取消同一部分其他词语的选中状态
+                        const samePart = document.querySelectorAll(`.word-option[data-part="${part}"]`);
+                        samePart.forEach(el => {
+                            el.classList.remove('active');
+                        });
+                        
+                        // 选中当前词语
+                        this.classList.add('active');
+                        selectedWords[part] = { word, translation };
+                    }
+                    
+                    // 更新句子显示
+                    updateSentenceDisplay1();
+                });
+            });
+            
+            // 为示例句子添加点击发音功能
+            exampleItems.forEach(item => {
+                const speakerIcon = item.querySelector('.speaker-icon');
+                
+                // 点击整个示例项播放发音
+                item.addEventListener('click', function() {
+                    const sentence = this.getAttribute('data-sentence');
+                    speakCantonese(sentence);
+                });
+                
+                // 点击喇叭图标播放发音
+                speakerIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const sentence = this.parentElement.getAttribute('data-sentence');
+                    speakCantonese(sentence);
+                });
+            });
+            
+            // 为造句框添加点击发音功能
+            sentenceDisplay.addEventListener('click', function() {
+                const sentence = this.textContent;
+                if (sentence && sentence !== '请选择词语构建句子...') {
+                    speakCantonese(sentence);
+                }
+            });
+            
+            // 为喇叭图标添加点击发音功能
+            sentenceSpeaker.addEventListener('click', function() {
+                const sentence = sentenceDisplay.textContent;
+                if (sentence && sentence !== '请选择词语构建句子...') {
+                    speakCantonese(sentence);
+                }
+            });
+            
+            // 更新句子显示
+            function updateSentenceDisplay1() {
+                let sentence = '';
+                let translation = '';
+                
+                // 添加主语
+                if (selectedWords.subject1.word) {
+                    sentence += selectedWords.subject1.word;
+                    translation += selectedWords.subject1.translation;
+                }
+                
+                // 添加谓语
+                if (selectedWords.predicate1.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.predicate1.word;
+                    translation += (translation ? ' ' : '') + selectedWords.predicate1.translation;
+                }
+                
+                // 添加地点
+                if (selectedWords.location1.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.location1.word;
+                    translation += (translation ? ' ' : '') + selectedWords.location1.translation;
+                }
+                
+                // 添加动词
+                if (selectedWords.verb1.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.verb1.word;
+                    translation += (translation ? ' ' : '') + selectedWords.verb1.translation;
+                }
+                
+                // 添加句号
+                if (sentence) {
+                    sentence += '。';
+                }
+                
+                // 更新显示
+                sentenceDisplay.textContent = sentence || '请选择词语构建句子...';
+                sentenceTranslation.textContent = translation || '句子翻译将在这里显示';
+            }
+        }
+        
+        // ========== 初始化造句练习2 ==========
+        function initSentenceBuilder2() {
+            const wordOptions = document.querySelectorAll('#demonstrativeOptions2 .word-option, #classifierOptions2 .word-option, #nounOptions2 .word-option, #adverbOptions2 .word-option, #adjectiveOptions2 .word-option');
+            const exampleItems = document.querySelectorAll('.example-item-sentence');
+            const sentenceDisplay = document.getElementById('sentenceDisplay2');
+            const sentenceSpeaker = document.getElementById('sentenceSpeaker2');
+            const sentenceTranslation = document.getElementById('sentenceTranslation2');
+            
+            // 存储当前选择的词语
+            const selectedWords = {
+                demonstrative2: { word: '', translation: '' },
+                classifier2: { word: '', translation: '' },
+                noun2: { word: '', translation: '' },
+                adverb2: { word: '', translation: '' },
+                adjective2: { word: '', translation: '' }
+            };
+            
+            // 为每个词语选项添加点击事件
+            wordOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const part = this.getAttribute('data-part');
+                    const word = this.textContent.trim().split('\n')[0];
+                    const jyutping = this.getAttribute('data-jyutping');
+                    const translation = this.getAttribute('data-translation');
+                    
+                    // 播放发音
+                    speakCantonese(word);
+                    
+                    // 如果是同一部分的词语，切换选中状态
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        selectedWords[part] = { word: '', translation: '' };
+                    } else {
+                        // 取消同一部分其他词语的选中状态
+                        const samePart = document.querySelectorAll(`.word-option[data-part="${part}"]`);
+                        samePart.forEach(el => {
+                            el.classList.remove('active');
+                        });
+                        
+                        // 选中当前词语
+                        this.classList.add('active');
+                        selectedWords[part] = { word, translation };
+                    }
+                    
+                    // 更新句子显示
+                    updateSentenceDisplay2();
+                });
+            });
+            
+            // 为示例句子添加点击发音功能
+            exampleItems.forEach(item => {
+                const speakerIcon = item.querySelector('.speaker-icon');
+                
+                // 点击整个示例项播放发音
+                item.addEventListener('click', function() {
+                    const sentence = this.getAttribute('data-sentence');
+                    speakCantonese(sentence);
+                });
+                
+                // 点击喇叭图标播放发音
+                speakerIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const sentence = this.parentElement.getAttribute('data-sentence');
+                    speakCantonese(sentence);
+                });
+            });
+            
+            // 为造句框添加点击发音功能
+            sentenceDisplay.addEventListener('click', function() {
+                const sentence = this.textContent;
+                if (sentence && sentence !== '请选择词语构建句子...') {
+                    speakCantonese(sentence);
+                }
+            });
+            
+            // 为喇叭图标添加点击发音功能
+            sentenceSpeaker.addEventListener('click', function() {
+                const sentence = sentenceDisplay.textContent;
+                if (sentence && sentence !== '请选择词语构建句子...') {
+                    speakCantonese(sentence);
+                }
+            });
+            
+            // 更新句子显示
+            function updateSentenceDisplay2() {
+                let sentence = '';
+                let translation = '';
+                
+                // 添加指示词
+                if (selectedWords.demonstrative2.word) {
+                    sentence += selectedWords.demonstrative2.word;
+                    translation += selectedWords.demonstrative2.translation;
+                }
+                
+                // 添加量词
+                if (selectedWords.classifier2.word) {
+                    sentence += selectedWords.classifier2.word;
+                    translation += selectedWords.classifier2.translation;
+                }
+                
+                // 添加名词
+                if (selectedWords.noun2.word) {
+                    sentence += selectedWords.noun2.word;
+                    translation += selectedWords.noun2.translation;
+                }
+                
+                // 添加程度副词
+                if (selectedWords.adverb2.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.adverb2.word;
+                    translation += (translation ? ' ' : '') + selectedWords.adverb2.translation;
+                }
+                
+                // 添加形容词
+                if (selectedWords.adjective2.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.adjective2.word;
+                    translation += (translation ? ' ' : '') + selectedWords.adjective2.translation;
+                }
+                
+                // 添加句号
+                if (sentence) {
+                    sentence += '。';
+                }
+                
+                // 更新显示
+                sentenceDisplay.textContent = sentence || '请选择词语构建句子...';
+                sentenceTranslation.textContent = translation || '句子翻译将在这里显示';
+            }
+        }
+        
+        // ========== 初始化造句练习3 ==========
+        function initSentenceBuilder3() {
+            const wordOptions = document.querySelectorAll('#subjectOptions3 .word-option, #gamOptions3 .word-option, #verbOptions3 .word-option, #adverbOptions3 .word-option, #adjectiveOptions3 .word-option, #particleOptions3 .word-option');
+            const exampleItems = document.querySelectorAll('.example-item-sentence');
+            const sentenceDisplay = document.getElementById('sentenceDisplay3');
+            const sentenceSpeaker = document.getElementById('sentenceSpeaker3');
+            const sentenceTranslation = document.getElementById('sentenceTranslation3');
+            
+            // 存储当前选择的词语
+            const selectedWords = {
+                subject3: { word: '', translation: '' },
+                gam3: { word: '噉', translation: '这样' },
+                verb3: { word: '', translation: '' },
+                adverb3: { word: '', translation: '' },
+                adjective3: { word: '', translation: '' },
+                particle3: { word: '', translation: '' }
+            };
+            
+            // 为每个词语选项添加点击事件
+            wordOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const part = this.getAttribute('data-part');
+                    const word = this.textContent.trim().split('\n')[0];
+                    const jyutping = this.getAttribute('data-jyutping');
+                    const translation = this.getAttribute('data-translation');
+                    
+                    // 播放发音
+                    speakCantonese(word);
+                    
+                    // 如果是同一部分的词语，切换选中状态
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        selectedWords[part] = { word: '', translation: '' };
+                    } else {
+                        // 取消同一部分其他词语的选中状态
+                        const samePart = document.querySelectorAll(`.word-option[data-part="${part}"]`);
+                        samePart.forEach(el => {
+                            el.classList.remove('active');
+                        });
+                        
+                        // 选中当前词语
+                        this.classList.add('active');
+                        selectedWords[part] = { word, translation };
+                    }
+                    
+                    // 更新句子显示
+                    updateSentenceDisplay3();
+                });
+            });
+            
+            // 为示例句子添加点击发音功能
+            exampleItems.forEach(item => {
+                const speakerIcon = item.querySelector('.speaker-icon');
+                
+                // 点击整个示例项播放发音
+                item.addEventListener('click', function() {
+                    const sentence = this.getAttribute('data-sentence');
+                    speakCantonese(sentence);
+                });
+                
+                // 点击喇叭图标播放发音
+                speakerIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const sentence = this.parentElement.getAttribute('data-sentence');
+                    speakCantonese(sentence);
+                });
+            });
+            
+            // 为造句框添加点击发音功能
+            sentenceDisplay.addEventListener('click', function() {
+                const sentence = this.textContent;
+                if (sentence && sentence !== '请选择词语构建句子...') {
+                    speakCantonese(sentence);
+                }
+            });
+            
+            // 为喇叭图标添加点击发音功能
+            sentenceSpeaker.addEventListener('click', function() {
+                const sentence = sentenceDisplay.textContent;
+                if (sentence && sentence !== '请选择词语构建句子...') {
+                    speakCantonese(sentence);
+                }
+            });
+            
+            // 更新句子显示
+            function updateSentenceDisplay3() {
+                let sentence = '';
+                let translation = '';
+                
+                // 添加主语
+                if (selectedWords.subject3.word) {
+                    sentence += selectedWords.subject3.word;
+                    translation += selectedWords.subject3.translation;
+                }
+                
+                // 添加"噉"
+                if (selectedWords.gam3.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.gam3.word;
+                    translation += (translation ? ' ' : '') + selectedWords.gam3.translation;
+                }
+                
+                // 添加动词
+                if (selectedWords.verb3.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.verb3.word;
+                    translation += (translation ? ' ' : '') + selectedWords.verb3.translation;
+                }
+                
+                // 添加副词
+                if (selectedWords.adverb3.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.adverb3.word;
+                    translation += (translation ? ' ' : '') + selectedWords.adverb3.translation;
+                }
+                
+                // 添加形容词
+                if (selectedWords.adjective3.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.adjective3.word;
+                    translation += (translation ? ' ' : '') + selectedWords.adjective3.translation;
+                }
+                
+                // 添加语气助词
+                if (selectedWords.particle3.word) {
+                    sentence += (sentence ? ' ' : '') + selectedWords.particle3.word;
+                    translation += (translation ? ' ' : '') + selectedWords.particle3.translation;
+                }
+                
+                // 添加句号
+                if (sentence) {
+                    sentence += '。';
+                }
+                
+                // 更新显示
+                sentenceDisplay.textContent = sentence || '请选择词语构建句子...';
+                sentenceTranslation.textContent = translation || '句子翻译将在这里显示';
+            }
         }
         
         // ========== 语音合成函数 ==========
