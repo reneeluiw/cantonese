@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renee粤语学习合集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1A365D, #2D4A7C);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: none;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .content {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .home-content {
+            display: block;
+        }
+        
+        .module-content {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .module-content.active {
+            display: flex;
+        }
+        
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            flex: 1;
+        }
+        
+        .module-card {
+            background: #f0f7ff;
+            border: 1px solid #1A365D;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #1A365D, #2D4A7C);
+            color: white;
+        }
+        
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .module-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .module-desc {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .module-card:hover .module-desc {
+            color: #ddd;
+        }
+        
+        .instructions {
+            background: #e8f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            color: #1A365D;
+            text-align: center;
+        }
+        
+        /* 模块内容样式 */
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .module-h2 {
+            color: #1A365D;
+            border-left: 5px solid #1A365D;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+            height: 90px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .flip-card-front {
+            background-color: #f0f7ff;
+            color: #333;
+            border: 1px solid #1A365D;
+        }
+        
+        .flip-card-back {
+            background: linear-gradient(135deg, #1A365D, #2D4A7C);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .mandarin-word {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .english-word {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .cantonese-word {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .cantonese-pinyin {
+            font-size: 0.9rem;
+        }
+        
+        .example-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .example-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .example-item {
+            background: #f0f7ff;
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #1A365D;
+        }
+        
+        .example-item.active {
+            background: linear-gradient(135deg, #1A365D, #2D4A7C);
+            color: white;
+        }
+        
+        .example-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .example-mandarin {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .example-english {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .example-cantonese {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: none;
+        }
+        
+        .example-pinyin {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            display: none;
+        }
+        
+        .example-item.active .example-mandarin,
+        .example-item.active .example-english {
+            display: none;
+        }
+        
+        .example-item.active .example-cantonese,
+        .example-item.active .example-pinyin {
+            display: block;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f0f0f0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .vocab-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .example-list {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .module-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="back-btn" id="backBtn">← 返回首页</button>
+            <h1>Renee粤语学习合集</h1>
+            <p class="subtitle">Cantonese Learning Collection</p>
+            <p class="subtitle">点击下方卡片开始学习</p>
+        </header>
+        
+        <div class="content">
+            <!-- 首页内容 -->
+            <div class="home-content" id="homeContent">
+                <div class="instructions">
+                    共包含6个粤语学习模块，点击卡片即可开始相应练习
+                </div>
+                
+                <div class="module-grid">
+                    <div class="module-card" data-module="body-pain">
+                        <div class="module-icon">🩺</div>
+                        <div class="module-title">身体疼痛词汇</div>
+                        <div class="module-desc">学习20个关于身体疼痛的粤语词汇</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="adjectives1">
+                        <div class="module-icon">📝</div>
+                        <div class="module-title">日常形容词(1)</div>
+                        <div class="module-desc">学习20个日常形容词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="adjectives2">
+                        <div class="module-icon">📚</div>
+                        <div class="module-title">日常形容词(2)</div>
+                        <div class="module-desc">学习20个更多日常形容词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="daily-verbs">
+                        <div class="module-icon">🏃</div>
+                        <div class="module-title">日常动词</div>
+                        <div class="module-desc">学习20个日常生活常用动词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="basic-verbs">
+                        <div class="module-icon">🚶</div>
+                        <div class="module-title">基本动词</div>
+                        <div class="module-desc">学习20个基本动作和移动动词</div>
+                    </div>
+                    
+                    <div class="module-card" data-module="adverbs">
+                        <div class="module-icon">📊</div>
+                        <div class="module-title">程度副词</div>
+                        <div class="module-desc">学习20个描述程度的副词</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 模块内容容器 -->
+            <div class="module-content" id="moduleContainer">
+                <!-- 模块内容会动态加载到这里 -->
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Renee Cantonese Learning &copy; 2023 | 粤语学习合集</p>
+        </div>
+    </div>
+
+    <script>
+        // ========== 模块数据 ==========
+        
+        // 模块1: 身体疼痛
+        const painVocab = [
+            {
+                mandarin: "头痛",
+                english: "headache",
+                cantonese: "头痛",
+                pinyin: "tau4 tung3",
+                mandarinSentence: "我今天早上有点头疼。",
+                englishSentence: "I have a bit of headache this morning.",
+                cantoneseSentence: "我今朝有啲头痛。",
+                cantonesePinyin: "Ngo5 gam1 ziu1 jau5 di1 tau4 tung3."
+            },
+            {
+                mandarin: "头晕",
+                english: "dizziness",
+                cantonese: "头晕",
+                pinyin: "tau4 wan4",
+                mandarinSentence: "站起来的时候有点头晕。",
+                englishSentence: "I feel dizzy when standing up.",
+                cantoneseSentence: "企起身嗰阵有啲头晕。",
+                cantonesePinyin: "Kei5 hei2 san1 go2 zan6 jau5 di1 tau4 wan4."
+            },
+            {
+                mandarin: "胃痛",
+                english: "stomachache",
+                cantonese: "胃痛",
+                pinyin: "wai6 tung3",
+                mandarinSentence: "吃完饭之后胃有点痛。",
+                englishSentence: "My stomach hurts a bit after eating.",
+                cantoneseSentence: "食完饭之后个胃有啲痛。",
+                cantonesePinyin: "Sik6 jyun4 faan6 zi1 hau6 go3 wai6 jau5 di1 tung3."
+            },
+            {
+                mandarin: "肚痛",
+                english: "abdominal pain",
+                cantonese: "肚痛",
+                pinyin: "tou5 tung3",
+                mandarinSentence: "我肚子很痛，要去厕所。",
+                englishSentence: "My stomach hurts badly, I need to go to the toilet.",
+                cantoneseSentence: "我个肚好痛，要去厕所。",
+                cantonesePinyin: "Ngo5 go3 tou5 hou2 tung3, jiu3 heoi3 ci3 so2."
+            },
+            {
+                mandarin: "腰痛",
+                english: "back pain",
+                cantonese: "腰痛",
+                pinyin: "jiu1 tung3",
+                mandarinSentence: "搬完重物后腰很痛。",
+                englishSentence: "My back hurts badly after lifting heavy things.",
+                cantoneseSentence: "搬完重嘢之后条腰好痛。",
+                cantonesePinyin: "Baan1 jyun4 cung5 je5 zi1 hau6 tiu4 jiu1 hou2 tung3."
+            },
+            {
+                mandarin: "背痛",
+                english: "back pain",
+                cantonese: "背痛",
+                pinyin: "bui3 tung3",
+                mandarinSentence: "坐久了背部有点痛。",
+                englishSentence: "My back hurts a bit from sitting too long.",
+                cantoneseSentence: "坐得耐个背脊有啲痛。",
+                cantonesePinyin: "Co5 dak1 noi6 go3 bui3 zek3 jau5 di1 tung3."
+            },
+            {
+                mandarin: "颈痛",
+                english: "neck pain",
+                cantonese: "颈痛",
+                pinyin: "geng2 tung3",
+                mandarinSentence: "落枕了，脖子很痛。",
+                englishSentence: "I slept in a wrong position, my neck hurts badly.",
+                cantoneseSentence: "瞓捩颈，条颈好痛。",
+                cantonesePinyin: "Fan3 lai6 geng2, tiu4 geng2 hou2 tung3."
+            },
+            {
+                mandarin: "关节痛",
+                english: "joint pain",
+                cantonese: "关节痛",
+                pinyin: "gwaan1 zit3 tung3",
+                mandarinSentence: "下雨前膝盖会痛。",
+                englishSentence: "My knees hurt before it rains.",
+                cantoneseSentence: "落雨之前个膝头哥会痛。",
+                cantonesePinyin: "Lok6 jyu5 zi1 cin4 go3 sat1 tau4 go1 wui5 tung3."
+            },
+            {
+                mandarin: "肌肉痛",
+                english: "muscle pain",
+                cantonese: "肌肉痛",
+                pinyin: "gei1 juk6 tung3",
+                mandarinSentence: "运动后第二天肌肉很痛。",
+                englishSentence: "My muscles hurt badly the day after exercise.",
+                cantoneseSentence: "做完运动第二日肌肉好痛。",
+                cantonesePinyin: "Zou6 jyun4 wan6 dung6 dai6 ji6 jat6 gei1 juk6 hou2 tung3."
+            },
+            {
+                mandarin: "牙痛",
+                english: "toothache",
+                cantonese: "牙痛",
+                pinyin: "ngaa4 tung3",
+                mandarinSentence: "大牙很痛，要看牙医。",
+                englishSentence: "My molar hurts badly, I need to see a dentist.",
+                cantoneseSentence: "只大牙好痛，要睇牙医。",
+                cantonesePinyin: "Zek3 daai6 ngaa4 hou2 tung3, jiu3 tai2 ngaa4 ji1."
+            },
+            {
+                mandarin: "喉咙痛",
+                english: "sore throat",
+                cantonese: "喉咙痛",
+                pinyin: "hau4 lung4 tung3",
+                mandarinSentence: "我有点感冒，喉咙很痛。",
+                englishSentence: "I have a bit of cold, my throat hurts badly.",
+                cantoneseSentence: "我有啲感冒，个喉咙好痛。",
+                cantonesePinyin: "Ngo5 jau5 di1 gam2 mou6, go3 hau4 lung4 hou2 tung3."
+            },
+            {
+                mandarin: "胸痛",
+                english: "chest pain",
+                cantonese: "胸痛",
+                pinyin: "hung1 tung3",
+                mandarinSentence: "胸口有点痛，要检查一下。",
+                englishSentence: "My chest hurts a bit, I need to get it checked.",
+                cantoneseSentence: "个心口有啲痛，要检查下。",
+                cantonesePinyin: "Go3 sam1 hau2 jau5 di1 tung3, jiu3 gim2 caa4 haa5."
+            },
+            {
+                mandarin: "耳痛",
+                english: "earache",
+                cantonese: "耳痛",
+                pinyin: "ji5 tung3",
+                mandarinSentence: "耳朵进水了，有点痛。",
+                englishSentence: "Water got in my ear and it hurts a bit.",
+                cantoneseSentence: "只耳仔入咗水，有啲痛。",
+                cantonesePinyin: "Zek3 ji5 zai2 jap6 zo2 seoi2, jau5 di1 tung3."
+            },
+            {
+                mandarin: "眼痛",
+                english: "eye pain",
+                cantonese: "眼痛",
+                pinyin: "ngaan5 tung3",
+                mandarinSentence: "对着电脑太久，眼睛有点痛。",
+                englishSentence: "My eyes hurt a bit from looking at the computer for too long.",
+                cantoneseSentence: "对住电脑太耐，对眼有啲痛。",
+                cantonesePinyin: "Deoi3 zyu6 din6 nou5 taai3 noi6, deoi3 ngaan5 jau5 di1 tung3."
+            },
+            {
+                mandarin: "经痛",
+                english: "menstrual pain",
+                cantonese: "经痛",
+                pinyin: "ging1 tung3",
+                mandarinSentence: "今天第一天，肚子很痛。",
+                englishSentence: "It's the first day today, my stomach hurts badly.",
+                cantoneseSentence: "今日第一日，个肚好痛。",
+                cantonesePinyin: "Gam1 jat6 dai6 jat1 jat6, go3 tou5 hou2 tung3."
+            },
+            {
+                mandarin: "骨折痛",
+                english: "fracture pain",
+                cantonese: "骨折痛",
+                pinyin: "gwat1 zit3 tung3",
+                mandarinSentence: "手骨折了，很痛。",
+                englishSentence: "My hand is fractured and it hurts badly.",
+                cantoneseSentence: "只手骨折咗，好痛。",
+                cantonesePinyin: "Zek3 sau2 gwat1 zit3 zo2, hou2 tung3."
+            },
+            {
+                mandarin: "神经痛",
+                english: "nerve pain",
+                cantonese: "神经痛",
+                pinyin: "san4 ging1 tung3",
+                mandarinSentence: "脸上有神经痛，像电击一样。",
+                englishSentence: "I have neuralgia on my face, it feels like electric shocks.",
+                cantoneseSentence: "块面有神经痛，好似电击咁。",
+                cantonesePinyin: "Faai3 min2 jau5 san4 ging1 tung3, hou2 ci5 din6 gik1 gam2."
+            },
+            {
+                mandarin: "偏头痛",
+                english: "migraine",
+                cantonese: "偏头痛",
+                pinyin: "pin1 tau4 tung3",
+                mandarinSentence: "又发偏头痛，右边头很痛。",
+                englishSentence: "I have migraine again, the right side of my head hurts badly.",
+                cantoneseSentence: "又发偏头痛，右边个头好痛。",
+                cantonesePinyin: "Jau6 faat3 pin1 tau4 tung3, jau6 bin1 go3 tau4 hou2 tung3."
+            },
+            {
+                mandarin: "伤口痛",
+                english: "wound pain",
+                cantonese: "伤口痛",
+                pinyin: "soeng1 hau2 tung3",
+                mandarinSentence: "伤口发炎了，很痛。",
+                englishSentence: "The wound is inflamed and hurts badly.",
+                cantoneseSentence: "个伤口发炎，好痛。",
+                cantonesePinyin: "Go3 soeng1 hau2 faat3 jim4, hou2 tung3."
+            },
+            {
+                mandarin: "韧带拉伤痛",
+                english: "ligament sprain pain",
+                cantonese: "韧带拉伤痛",
+                pinyin: "jan6 daai6 laai1 soeng1 tung3",
+                mandarinSentence: "脚扭到了，韧带拉伤很痛。",
+                englishSentence: "I twisted my foot, the ligament is sprained and hurts badly.",
+                cantoneseSentence: "只脚拗亲，条韧带拉伤咗好痛。",
+                cantonesePinyin: "Zek3 goek3 aau2 can1, tiu4 jan6 daai6 laai1 soeng1 zo2 hou2 tung3."
+            }
+        ];
+
+        // 模块2: 日常形容词(1)
+        const adjectives1 = [
+            {
+                mandarin: "好",
+                english: "good",
+                cantonese: "好",
+                pinyin: "hou2",
+                mandarinSentence: "这个蛋糕很好吃。",
+                englishSentence: "This cake is very delicious.",
+                cantoneseSentence: "呢个蛋糕好好食。",
+                cantonesePinyin: "Ni1 go3 daan6 gou1 hou2 hou2 sik6."
+            },
+            {
+                mandarin: "漂亮",
+                english: "beautiful",
+                cantonese: "靓",
+                pinyin: "leng3",
+                mandarinSentence: "你的衣服很漂亮。",
+                englishSentence: "Your clothes are very beautiful.",
+                cantoneseSentence: "你件衫好靓。",
+                cantonesePinyin: "Nei5 gin6 saam1 hou2 leng3."
+            },
+            {
+                mandarin: "棒",
+                english: "great",
+                cantonese: "正",
+                pinyin: "zeng3",
+                mandarinSentence: "这顿饭太棒了！",
+                englishSentence: "This meal is great!",
+                cantoneseSentence: "呢餐饭好正！",
+                cantonesePinyin: "Ni1 caan1 faan6 hou2 zeng3!"
+            },
+            {
+                mandarin: "高",
+                english: "tall",
+                cantonese: "高",
+                pinyin: "gou1",
+                mandarinSentence: "他长得很高。",
+                englishSentence: "He is very tall.",
+                cantoneseSentence: "佢生得好高。",
+                cantonesePinyin: "Keoi5 saang1 dak1 hou2 gou1."
+            },
+            {
+                mandarin: "矮",
+                english: "short",
+                cantonese: "矮",
+                pinyin: "ai2",
+                mandarinSentence: "这张桌子有点矮。",
+                englishSentence: "This table is a bit short.",
+                cantoneseSentence: "张枱有啲矮。",
+                cantonesePinyin: "Zoeng1 toi2 jau5 di1 ai2."
+            },
+            {
+                mandarin: "胖",
+                english: "fat",
+                cantonese: "肥",
+                pinyin: "fei4",
+                mandarinSentence: "我最近好像胖了。",
+                englishSentence: "I seem to have gained weight recently.",
+                cantoneseSentence: "我最近好似肥咗。",
+                cantonesePinyin: "Ngo5 zeoi3 gan6 hou2 ci5 fei4 zo2."
+            },
+            {
+                mandarin: "瘦",
+                english: "thin",
+                cantonese: "瘦",
+                pinyin: "sau3",
+                mandarinSentence: "你减肥成功，瘦了很多。",
+                englishSentence: "You successfully lost weight and became much thinner.",
+                cantoneseSentence: "你减肥成功，瘦咗好多。",
+                cantonesePinyin: "Nei5 gaai2 fei4 sing4 gung1, sau3 zo2 hou2 do1."
+            },
+            {
+                mandarin: "长",
+                english: "long",
+                cantonese: "长",
+                pinyin: "coeng4",
+                mandarinSentence: "这条路很长。",
+                englishSentence: "This road is very long.",
+                cantoneseSentence: "条路好长。",
+                cantonesePinyin: "Tiu4 lou6 hou2 coeng4."
+            },
+            {
+                mandarin: "短",
+                english: "short",
+                cantonese: "短",
+                pinyin: "dyun2",
+                mandarinSentence: "这条裤子短了点。",
+                englishSentence: "These pants are a bit short.",
+                cantoneseSentence: "条裤短咗啲。",
+                cantonesePinyin: "Tiu4 fu3 dyun2 zo2 di1."
+            },
+            {
+                mandarin: "宽",
+                english: "wide",
+                cantonese: "阔",
+                pinyin: "fut3",
+                mandarinSentence: "这条河很宽。",
+                englishSentence: "This river is very wide.",
+                cantoneseSentence: "呢条河好阔。",
+                cantonesePinyin: "Ni1 tiu4 ho4 hou2 fut3."
+            },
+            {
+                mandarin: "窄",
+                english: "narrow",
+                cantonese: "窄",
+                pinyin: "zaak3",
+                mandarinSentence: "这条走廊很窄。",
+                englishSentence: "This corridor is very narrow.",
+                cantoneseSentence: "条走廊好窄。",
+                cantonesePinyin: "Tiu4 zau1 long4 hou2 zaak3."
+            },
+            {
+                mandarin: "硬",
+                english: "hard",
+                cantonese: "硬",
+                pinyin: "ngaang6",
+                mandarinSentence: "这个面包有点硬。",
+                englishSentence: "This bread is a bit hard.",
+                cantoneseSentence: "个包有啲硬。",
+                cantonesePinyin: "Go3 baau1 jau5 di1 ngaang6."
+            },
+            {
+                mandarin: "软",
+                english: "soft",
+                cantonese: "软",
+                pinyin: "jyun5",
+                mandarinSentence: "这张床很柔软。",
+                englishSentence: "This bed is very soft.",
+                cantoneseSentence: "张床好软熟。",
+                cantonesePinyin: "Zoeng1 cong4 hou2 jyun5 suk6."
+            },
+            {
+                mandarin: "聪明",
+                english: "smart",
+                cantonese: "叻",
+                pinyin: "lek1",
+                mandarinSentence: "你儿子很聪明。",
+                englishSentence: "Your son is very smart.",
+                cantoneseSentence: "你个仔好叻仔。",
+                cantonesePinyin: "Nei5 go3 zai2 hou2 lek1 zai2."
+            },
+            {
+                mandarin: "酷",
+                english: "cool",
+                cantonese: "型",
+                pinyin: "jing4",
+                mandarinSentence: "你的新车很酷。",
+                englishSentence: "Your new car is very cool.",
+                cantoneseSentence: "你架新車好型。",
+                cantonesePinyin: "Nei5 gaa2 san1 ce1 hou2 jing4."
+            },
+            {
+                mandarin: "威风",
+                english: "impressive",
+                cantonese: "威",
+                pinyin: "wai1",
+                mandarinSentence: "拿到冠军，很威风啊！",
+                englishSentence: "Winning the championship is very impressive!",
+                cantoneseSentence: "攞到冠軍，好威啊！",
+                cantonesePinyin: "Lo2 dou3 gun3 gwan1, hou2 wai1 aa3!"
+            },
+            {
+                mandarin: "坏",
+                english: "bad",
+                cantonese: "衰",
+                pinyin: "seoi1",
+                mandarinSentence: "他这个人很坏。",
+                englishSentence: "He is a very bad person.",
+                cantoneseSentence: "佢个人好衰格。",
+                cantonesePinyin: "Keoi5 go3 jan4 hou2 seoi1 gaak3."
+            },
+            {
+                mandarin: "乖",
+                english: "well-behaved",
+                cantonese: "乖",
+                pinyin: "gwaai1",
+                mandarinSentence: "小朋友很乖。",
+                englishSentence: "The child is very well-behaved.",
+                cantoneseSentence: "小朋友好乖。",
+                cantonesePinyin: "Siu2 pang4 jau5 hou2 gwaai1."
+            },
+            {
+                mandarin: "调皮",
+                english: "naughty",
+                cantonese: "曳",
+                pinyin: "jai5",
+                mandarinSentence: "这个小孩很调皮。",
+                englishSentence: "This child is very naughty.",
+                cantoneseSentence: "隻细路好曳。",
+                cantonesePinyin: "Zek3 sai3 lou6 hou2 jai5."
+            },
+            {
+                mandarin: "累",
+                english: "tired",
+                cantonese: "攰",
+                pinyin: "gui6",
+                mandarinSentence: "干了一整天，好累。",
+                englishSentence: "Worked all day, very tired.",
+                cantoneseSentence: "做咗成日，好攰。",
+                cantonesePinyin: "Zou6 zo2 seng4 jat6, hou2 gui6."
+            }
+        ];
+
+        // 模块3: 日常形容词(2)
+        const adjectives2 = [
+            {
+                mandarin: "快",
+                english: "fast",
+                cantonese: "快",
+                pinyin: "faai3",
+                mandarinSentence: "地铁好快就到。",
+                englishSentence: "The subway will arrive soon.",
+                cantoneseSentence: "地铁好快就到。",
+                cantonesePinyin: "Dei6 tit3 hou2 faai3 zau6 dou3."
+            },
+            {
+                mandarin: "慢",
+                english: "slow",
+                cantonese: "慢",
+                pinyin: "maan6",
+                mandarinSentence: "你走得好慢啊。",
+                englishSentence: "You're walking so slowly.",
+                cantoneseSentence: "你行得好慢啊。",
+                cantonesePinyin: "Nei5 haang4 dak1 hou2 maan6 aa3."
+            },
+            {
+                mandarin: "冷",
+                english: "cold",
+                cantonese: "冻",
+                pinyin: "dung3",
+                mandarinSentence: "今天天气好冷。",
+                englishSentence: "The weather is very cold today.",
+                cantoneseSentence: "今日天气好冻。",
+                cantonesePinyin: "Gam1 jat6 tin1 hei3 hou2 dung3."
+            },
+            {
+                mandarin: "暖和",
+                english: "warm",
+                cantonese: "暖",
+                pinyin: "nyun5",
+                mandarinSentence: "这里很暖和。",
+                englishSentence: "It's very warm here.",
+                cantoneseSentence: "呢度好暖。",
+                cantonesePinyin: "Ni1 dou6 hou2 nyun5."
+            },
+            {
+                mandarin: "热",
+                english: "hot",
+                cantonese: "热",
+                pinyin: "jit6",
+                mandarinSentence: "夏天好热。",
+                englishSentence: "Summer is very hot.",
+                cantoneseSentence: "夏天好热。",
+                cantonesePinyin: "Haa6 tin1 hou2 jit6."
+            },
+            {
+                mandarin: "凉快",
+                english: "cool",
+                cantonese: "凉",
+                pinyin: "loeng4",
+                mandarinSentence: "晚上有点凉快。",
+                englishSentence: "It's a bit cool in the evening.",
+                cantoneseSentence: "晚黑有啲凉。",
+                cantonesePinyin: "Maan5 hak1 jau5 di1 loeng4."
+            },
+            {
+                mandarin: "划算",
+                english: "worth it",
+                cantonese: "抵",
+                pinyin: "dai2",
+                mandarinSentence: "这件衣服这么便宜，很划算！",
+                englishSentence: "This piece of clothing is so cheap, it's a great deal!",
+                cantoneseSentence: "件衫咁平，好抵买！",
+                cantonesePinyin: "Gin6 saam1 gam3 peng4, hou2 dai2 maai5!"
+            },
+            {
+                mandarin: "贵",
+                english: "expensive",
+                cantonese: "贵",
+                pinyin: "gwai3",
+                mandarinSentence: "这个手提包很贵。",
+                englishSentence: "This handbag is very expensive.",
+                cantoneseSentence: "呢个手袋好贵。",
+                cantonesePinyin: "Ni1 go3 sau2 doi2 hou2 gwai3."
+            },
+            {
+                mandarin: "便宜",
+                english: "cheap",
+                cantonese: "平",
+                pinyin: "peng4",
+                mandarinSentence: "菜市场的菜很便宜。",
+                englishSentence: "The vegetables at the market are very cheap.",
+                cantoneseSentence: "街市嘅菜好平。",
+                cantonesePinyin: "Gaai1 si5 ge3 coi3 hou2 peng4."
+            },
+            {
+                mandarin: "晚",
+                english: "late",
+                cantonese: "晏",
+                pinyin: "aan3",
+                mandarinSentence: "很晚了，快点睡吧。",
+                englishSentence: "It's very late, go to sleep quickly.",
+                cantoneseSentence: "好晏啦，快啲训啦。",
+                cantonesePinyin: "Hou2 aan3 laa1, faai3 di1 fan3 laa1."
+            },
+            {
+                mandarin: "早",
+                english: "early",
+                cantonese: "早",
+                pinyin: "zou2",
+                mandarinSentence: "你今天早上很早就起床了。",
+                englishSentence: "You woke up very early this morning.",
+                cantoneseSentence: "你今朝好早起身。",
+                cantonesePinyin: "Nei5 gam1 ziu1 hou2 zou2 hei2 san1."
+            },
+            {
+                mandarin: "饱",
+                english: "full",
+                cantonese: "饱",
+                pinyin: "baau2",
+                mandarinSentence: "吃得很饱。",
+                englishSentence: "I'm very full.",
+                cantoneseSentence: "食得好饱。",
+                cantonesePinyin: "Sik6 dak1 hou2 baau2."
+            },
+            {
+                mandarin: "饿",
+                english: "hungry",
+                cantonese: "饿",
+                pinyin: "ngo6",
+                mandarinSentence: "我的肚子好饿。",
+                englishSentence: "My stomach is very hungry.",
+                cantoneseSentence: "我个肚好饿。",
+                cantonesePinyin: "Ngo5 go3 tou5 hou2 ngo6."
+            },
+            {
+                mandarin: "明亮",
+                english: "bright",
+                cantonese: "光",
+                pinyin: "gwong1",
+                mandarinSentence: "主卧有落地窗很明亮。",
+                englishSentence: "The master bedroom has floor-to-ceiling windows and is very bright.",
+                cantoneseSentence: "主人房有落地窗好光猛。",
+                cantonesePinyin: "Zyu2 jan4 fong2 jau5 lok6 dei6 coeng1 hou2 gwong1 maang5."
+            },
+            {
+                mandarin: "暗",
+                english: "dark",
+                cantonese: "暗",
+                pinyin: "am3",
+                mandarinSentence: "街上有点暗。",
+                englishSentence: "The street is a bit dark.",
+                cantoneseSentence: "条街有啲暗。",
+                cantonesePinyin: "Tiu4 gaai1 jau5 di1 am3."
+            },
+            {
+                mandarin: "吵",
+                english: "noisy",
+                cantonese: "嘈",
+                pinyin: "cou4",
+                mandarinSentence: "楼下很吵。",
+                englishSentence: "It's very noisy downstairs.",
+                cantoneseSentence: "楼下好嘈。",
+                cantonesePinyin: "Lau6 haa6 hou2 cou4."
+            },
+            {
+                mandarin: "乱",
+                english: "messy",
+                cantonese: "乱",
+                pinyin: "lyun6",
+                mandarinSentence: "我的家很乱。",
+                englishSentence: "My home is very messy.",
+                cantoneseSentence: "我屋企好乱。",
+                cantonesePinyin: "Ngo5 uk1 kei2 hou2 lyun6."
+            },
+            {
+                mandarin: "安静",
+                english: "quiet",
+                cantonese: "静",
+                pinyin: "zing6",
+                mandarinSentence: "图书馆要保持安静。",
+                englishSentence: "We must keep quiet in the library.",
+                cantoneseSentence: "图书馆要好静。",
+                cantonesePinyin: "Tou4 syu1 gun2 jiu3 hou2 zing6."
+            },
+            {
+                mandarin: "尴尬",
+                english: "embarrassing",
+                cantonese: "瘀",
+                pinyin: "jyu2",
+                mandarinSentence: "当众摔倒，好丢脸啊！",
+                englishSentence: "Falling in front of everyone is so embarrassing!",
+                cantoneseSentence: "当众跌亲，好瘀啊！",
+                cantonesePinyin: "Dong1 zung3 dit3 can1, hou2 jyu2 aa3!"
+            },
+            {
+                mandarin: "蠢",
+                english: "stupid",
+                cantonese: "蠢",
+                pinyin: "ceon2",
+                mandarinSentence: "不要做这么蠢的事。",
+                englishSentence: "Don't do such stupid things.",
+                cantoneseSentence: "唔好做啲咁蠢嘅事。",
+                cantonesePinyin: "M4 hou2 zou6 di1 gam3 ceon2 ge3 si6."
+            }
+        ];
+
+        // 模块4: 日常动词
+        const dailyVerbs = [
+            {
+                mandarin: "玩",
+                english: "play",
+                cantonese: "玩",
+                pinyin: "waan2",
+                mandarinSentence: "小朋友在公园玩。",
+                englishSentence: "The children are playing in the park.",
+                cantoneseSentence: "小朋友喺公园玩。",
+                cantonesePinyin: "Siu2 pang4 jau5 hai2 gung1 jyun2 waan2."
+            },
+            {
+                mandarin: "疼爱",
+                english: "love",
+                cantonese: "锡",
+                pinyin: "sek3",
+                mandarinSentence: "妈妈很疼爱我。",
+                englishSentence: "Mom loves me very much.",
+                cantoneseSentence: "妈妈好锡我。",
+                cantonesePinyin: "Maa1 maa1 hou2 sek3 ngo5."
+            },
+            {
+                mandarin: "生气",
+                english: "angry",
+                cantonese: "嬲",
+                pinyin: "nau1",
+                mandarinSentence: "他做错事，我很生气。",
+                englishSentence: "He did something wrong, I'm very angry.",
+                cantoneseSentence: "佢做错事，我好嬲。",
+                cantonesePinyin: "Keoi5 zou6 co3 si6, ngo5 hou2 nau1."
+            },
+            {
+                mandarin: "害怕",
+                english: "afraid",
+                cantonese: "惊",
+                pinyin: "geng1",
+                mandarinSentence: "我小时候很怕黑。",
+                englishSentence: "I was afraid of the dark when I was a child.",
+                cantoneseSentence: "我细个好惊黑。",
+                cantonesePinyin: "Ngo5 sai3 go3 hou2 geng1 hak1."
+            },
+            {
+                mandarin: "会",
+                english: "know how to",
+                cantonese: "识",
+                pinyin: "sik1",
+                mandarinSentence: "我会说一点点粤语。",
+                englishSentence: "I know how to speak a little Cantonese.",
+                cantoneseSentence: "我识讲少少粤语。",
+                cantonesePinyin: "Ngo5 sik1 gong2 siu2 siu2 jyut6 jyu5."
+            },
+            {
+                mandarin: "知道",
+                english: "know",
+                cantonese: "知",
+                pinyin: "zi1",
+                mandarinSentence: "我不知道这件事。",
+                englishSentence: "I don't know about this matter.",
+                cantoneseSentence: "我唔知件事。",
+                cantonesePinyin: "Ngo5 m4 zi1 gin6 si6."
+            },
+            {
+                mandarin: "学习",
+                english: "learn",
+                cantonese: "学",
+                pinyin: "hok6",
+                mandarinSentence: "我正在学粤语。",
+                englishSentence: "I'm learning Cantonese.",
+                cantoneseSentence: "我喺度学紧粤语。",
+                cantonesePinyin: "Ngo5 hai2 dou6 hok6 gan2 jyut6 jyu5."
+            },
+            {
+                mandarin: "教",
+                english: "teach",
+                cantonese: "教",
+                pinyin: "gaau3",
+                mandarinSentence: "你可不可以教我？",
+                englishSentence: "Can you teach me?",
+                cantoneseSentence: "你可唔可以教我？",
+                cantonesePinyin: "Nei5 ho2 m4 ho2 ji5 gaau3 ngo5?"
+            },
+            {
+                mandarin: "使用",
+                english: "use",
+                cantonese: "用",
+                pinyin: "jung6",
+                mandarinSentence: "怎么用这个APP？",
+                englishSentence: "How to use this APP?",
+                cantoneseSentence: "点用呢个APP？",
+                cantonesePinyin: "Dim2 jung6 ni1 go3 APP?"
+            },
+            {
+                mandarin: "爱",
+                english: "love",
+                cantonese: "爱",
+                pinyin: "oi3",
+                mandarinSentence: "我爱你。",
+                englishSentence: "I love you.",
+                cantoneseSentence: "我爱你。",
+                cantonesePinyin: "Ngo5 oi3 nei5."
+            },
+            {
+                mandarin: "要",
+                english: "want",
+                cantonese: "要",
+                pinyin: "jiu3",
+                mandarinSentence: "你要点什么？",
+                englishSentence: "What do you want to order?",
+                cantoneseSentence: "你要啲咩？",
+                cantonesePinyin: "Nei5 jiu3 di1 me1?"
+            },
+            {
+                mandarin: "想",
+                english: "want to",
+                cantonese: "想",
+                pinyin: "soeng2",
+                mandarinSentence: "我想去旅行。",
+                englishSentence: "I want to travel.",
+                cantoneseSentence: "我想去旅行。",
+                cantonesePinyin: "Ngo5 soeng2 heoi3 leoi5 hang4."
+            },
+            {
+                mandarin: "买",
+                english: "buy",
+                cantonese: "买",
+                pinyin: "maai5",
+                mandarinSentence: "我想买一部新手机。",
+                englishSentence: "I want to buy a new mobile phone.",
+                cantoneseSentence: "我想买部新手机。",
+                cantonesePinyin: "Ngo5 soeng2 maai5 bou6 san1 sau2 gei1."
+            },
+            {
+                mandarin: "卖",
+                english: "sell",
+                cantonese: "卖",
+                pinyin: "maai6",
+                mandarinSentence: "这家店卖很多好东西。",
+                englishSentence: "This shop sells many good things.",
+                cantoneseSentence: "间铺头卖好多靓嘢。",
+                cantonesePinyin: "Gaan1 pou3 tau2 maai6 hou2 do1 leng3 je5."
+            },
+            {
+                mandarin: "给",
+                english: "give",
+                cantonese: "俾",
+                pinyin: "bei2",
+                mandarinSentence: "你可不可以给我一个机会？",
+                englishSentence: "Can you give me a chance?",
+                cantoneseSentence: "你可唔可以俾个机会我？",
+                cantonesePinyin: "Nei5 ho2 m4 ho2 ji5 bei2 go3 gei1 wui6 ngo5?"
+            },
+            {
+                mandarin: "收到",
+                english: "receive",
+                cantonese: "收",
+                pinyin: "sau1",
+                mandarinSentence: "我收到你的信息了。",
+                englishSentence: "I received your message.",
+                cantoneseSentence: "我收到你嘅信息啦。",
+                cantonesePinyin: "Ngo5 sau1 dou2 nei5 ge3 seon3 sik1 laa1."
+            },
+            {
+                mandarin: "开",
+                english: "open",
+                cantonese: "开",
+                pinyin: "hoi1",
+                mandarinSentence: "帮我开一下窗。",
+                englishSentence: "Help me open the window.",
+                cantoneseSentence: "帮我开下窗。",
+                cantonesePinyin: "Bong1 ngo5 hoi1 haa5 coeng1."
+            },
+            {
+                mandarin: "关",
+                english: "close",
+                cantonese: "閂",
+                pinyin: "saan1",
+                mandarinSentence: "关好门窗再走。",
+                englishSentence: "Close the doors and windows before leaving.",
+                cantoneseSentence: "閂好门窗先至走。",
+                cantonesePinyin: "Saan1 hou2 mun4 coeng1 sin1 zi3 zau2."
+            },
+            {
+                mandarin: "关门",
+                english: "close the door",
+                cantonese: "閂門",
+                pinyin: "saan1 mun4",
+                mandarinSentence: "记得关门啊。",
+                englishSentence: "Remember to close the door.",
+                cantoneseSentence: "记得閂門啊。",
+                cantonesePinyin: "Gei3 dak1 saan1 mun4 aa3."
+            },
+            {
+                mandarin: "关灯",
+                english: "turn off the light",
+                cantonese: "熄灯",
+                pinyin: "sik1 dang1",
+                mandarinSentence: "记得关灯啊。",
+                englishSentence: "Remember to turn off the light.",
+                cantoneseSentence: "记得熄灯啊。",
+                cantonesePinyin: "Gei3 dak1 sik1 dang1 aa3."
+            }
+        ];
+
+        // 模块5: 基本动词
+        const basicVerbs = [
+            {
+                mandarin: "坐下",
+                english: "sit down",
+                cantonese: "坐低",
+                pinyin: "co5 dai1",
+                mandarinSentence: "请你先坐下。",
+                englishSentence: "Please sit down first.",
+                cantoneseSentence: "请你先坐低。",
+                cantonesePinyin: "Cing2 nei5 sin1 co5 dai1."
+            },
+            {
+                mandarin: "站起来",
+                english: "stand up",
+                cantonese: "企起身",
+                pinyin: "kei5 hei2 san1",
+                mandarinSentence: "请大家站起来。",
+                englishSentence: "Everyone please stand up.",
+                cantoneseSentence: "大家企起身。",
+                cantonesePinyin: "Daai6 gaa1 kei5 hei2 san1."
+            },
+            {
+                mandarin: "走路",
+                english: "walk",
+                cantonese: "行路",
+                pinyin: "haang4 lou6",
+                mandarinSentence: "我喜欢走路去上班。",
+                englishSentence: "I like to walk to work.",
+                cantoneseSentence: "我钟意行路返工。",
+                cantonesePinyin: "Ngo5 zung1 ji3 haang4 lou6 faan1 gung1."
+            },
+            {
+                mandarin: "看",
+                english: "look",
+                cantonese: "睇",
+                pinyin: "tai2",
+                mandarinSentence: "你看那边！",
+                englishSentence: "Look over there!",
+                cantoneseSentence: "你睇嗰边！",
+                cantonesePinyin: "Nei5 tai2 go2 bin1!"
+            },
+            {
+                mandarin: "穿",
+                english: "wear",
+                cantonese: "着",
+                pinyin: "zoek3",
+                mandarinSentence: "今天很冷，多穿点衣服。",
+                englishSentence: "It's cold today, wear more clothes.",
+                cantoneseSentence: "今日好冻，着多啲衫。",
+                cantonesePinyin: "Gam1 jat6 hou2 dung3, zoek3 do1 di1 saam1."
+            },
+            {
+                mandarin: "打",
+                english: "call",
+                cantonese: "打",
+                pinyin: "daa2",
+                mandarinSentence: "我打电话给你。",
+                englishSentence: "I'll call you.",
+                cantoneseSentence: "我打电话畀你。",
+                cantonesePinyin: "Ngo5 daa2 din6 waa6 bei2 nei5."
+            },
+            {
+                mandarin: "听",
+                english: "listen",
+                cantonese: "听",
+                pinyin: "teng1",
+                mandarinSentence: "请你听我说。",
+                englishSentence: "Please listen to me.",
+                cantoneseSentence: "请你听我讲。",
+                cantonesePinyin: "Cing2 nei5 teng1 ngo5 gong2."
+            },
+            {
+                mandarin: "讲",
+                english: "speak",
+                cantonese: "讲",
+                pinyin: "gong2",
+                mandarinSentence: "请你讲大声一点。",
+                englishSentence: "Please speak a little louder.",
+                cantoneseSentence: "请你讲大声啲。",
+                cantonesePinyin: "Cing2 nei5 gong2 daai6 seng1 di1."
+            },
+            {
+                mandarin: "聊",
+                english: "chat",
+                cantonese: "傾",
+                pinyin: "king1",
+                mandarinSentence: "我们一起聊天吧。",
+                englishSentence: "Let's chat together.",
+                cantoneseSentence: "我哋一齐傾偈啦。",
+                cantonesePinyin: "Ngo5 dei6 jat1 cai4 king1 gai2 laa1."
+            },
+            {
+                mandarin: "拿",
+                english: "take",
+                cantonese: "拎",
+                pinyin: "ling1",
+                mandarinSentence: "请帮我拿一下包。",
+                englishSentence: "Please help me take the bag.",
+                cantoneseSentence: "唔该帮我拎下个袋。",
+                cantonesePinyin: "M4 goi1 bong1 ngo5 ling1 haa5 go3 doi2."
+            },
+            {
+                mandarin: "找",
+                english: "find",
+                cantonese: "搵",
+                pinyin: "wan2",
+                mandarinSentence: "我正在找钥匙。",
+                englishSentence: "I'm looking for the keys.",
+                cantoneseSentence: "我搵紧锁匙。",
+                cantonesePinyin: "Ngo5 wan2 gan2 so2 si4."
+            },
+            {
+                mandarin: "吃",
+                english: "eat",
+                cantonese: "食",
+                pinyin: "sik6",
+                mandarinSentence: "我们去吃午饭吧。",
+                englishSentence: "Let's go eat lunch.",
+                cantoneseSentence: "我哋去食午饭啦。",
+                cantonesePinyin: "Ngo5 dei6 heoi3 sik6 ng5 faan3 laa1."
+            },
+            {
+                mandarin: "喝",
+                english: "drink",
+                cantonese: "饮",
+                pinyin: "jam2",
+                mandarinSentence: "我想喝一杯水。",
+                englishSentence: "I want to drink a glass of water.",
+                cantoneseSentence: "我想饮杯水。",
+                cantonesePinyin: "Ngo5 soeng2 jam2 bui1 seoi2."
+            },
+            {
+                mandarin: "叫",
+                english: "call",
+                cantonese: "嗌",
+                pinyin: "aai3",
+                mandarinSentence: "请叫医生来。",
+                englishSentence: "Please call a doctor.",
+                cantoneseSentence: "唔该嗌个医生嚟。",
+                cantonesePinyin: "M4 goi1 aai3 go3 ji1 sang1 lai4."
+            },
+            {
+                mandarin: "笑",
+                english: "laugh",
+                cantonese: "笑",
+                pinyin: "siu3",
+                mandarinSentence: "这个笑话让我笑了。",
+                englishSentence: "This joke made me laugh.",
+                cantoneseSentence: "呢个笑话搞到我笑咗。",
+                cantonesePinyin: "Ni1 go3 siu3 waa6 gaau2 dou3 ngo5 siu3 zo2."
+            },
+            {
+                mandarin: "哭",
+                english: "cry",
+                cantonese: "喊",
+                pinyin: "haam3",
+                mandarinSentence: "那个小孩哭了。",
+                englishSentence: "That child is crying.",
+                cantoneseSentence: "嗰个细路喊咗。",
+                cantonesePinyin: "Go2 go3 sai3 lou6 haam3 zo2."
+            },
+            {
+                mandarin: "来",
+                english: "come",
+                cantonese: "嚟",
+                pinyin: "lai4",
+                mandarinSentence: "请你来我家。",
+                englishSentence: "Please come to my home.",
+                cantoneseSentence: "请你嚟我屋企。",
+                cantonesePinyin: "Cing2 nei5 lai4 ngo5 uk1 kei2."
+            },
+            {
+                mandarin: "去",
+                english: "go",
+                cantonese: "去",
+                pinyin: "heoi3",
+                mandarinSentence: "我们明天去公园。",
+                englishSentence: "We're going to the park tomorrow.",
+                cantoneseSentence: "我哋听日去公园。",
+                cantonesePinyin: "Ngo5 dei6 ting1 jat6 heoi3 gung1 jyun2."
+            },
+            {
+                mandarin: "送",
+                english: "send",
+                cantonese: "送",
+                pinyin: "sung3",
+                mandarinSentence: "我送你回家。",
+                englishSentence: "I'll send you home.",
+                cantoneseSentence: "我送你返屋企。",
+                cantonesePinyin: "Ngo5 sung3 nei5 faan1 uk1 kei2."
+            },
+            {
+                mandarin: "看望",
+                english: "visit",
+                cantonese: "探",
+                pinyin: "taam3",
+                mandarinSentence: "我们去医院看望朋友。",
+                englishSentence: "We're going to the hospital to visit a friend.",
+                cantoneseSentence: "我哋去医院探朋友。",
+                cantonesePinyin: "Ngo5 dei6 heoi3 ji1 jyun2 taam3 pang4 jau5."
+            }
+        ];
+
+        // 模块6: 程度副词
+        const adverbs = [
+            {
+                mandarin: "很；非常",
+                english: "very",
+                cantonese: "好",
+                pinyin: "hou2",
+                mandarinSentence: "我很喜欢你。",
+                englishSentence: "I like you very much.",
+                cantoneseSentence: "我好中意你。",
+                cantonesePinyin: "Ngo5 hou2 zung1 ji3 nei5."
+            },
+            {
+                mandarin: "非常",
+                english: "extremely",
+                cantonese: "非常",
+                pinyin: "fei1 soeng4",
+                mandarinSentence: "我非常开心。",
+                englishSentence: "I'm extremely happy.",
+                cantoneseSentence: "我非常开心。",
+                cantonesePinyin: "Ngo5 fei1 soeng4 hoi1 sam1."
+            },
+            {
+                mandarin: "格外；特别",
+                english: "especially; particularly",
+                cantonese: "零舍",
+                pinyin: "ling4 se3",
+                mandarinSentence: "他今天格外不同。",
+                englishSentence: "He's especially different today.",
+                cantoneseSentence: "佢今日零舍唔同。",
+                cantonesePinyin: "Keoi5 gam1 jat6 ling4 se3 m4 tung4."
+            },
+            {
+                mandarin: "真的；实在",
+                english: "really; truly",
+                cantonese: "真系",
+                pinyin: "zan1 hai6",
+                mandarinSentence: "你真厉害！",
+                englishSentence: "You're really amazing!",
+                cantoneseSentence: "你真系好叻！",
+                cantonesePinyin: "Nei5 zan1 hai6 hou2 lek1!"
+            },
+            {
+                mandarin: "实在",
+                english: "really; indeed",
+                cantonese: "实在",
+                pinyin: "sat6 zoi6",
+                mandarinSentence: "这件事实在太好笑。",
+                englishSentence: "This matter is really too funny.",
+                cantoneseSentence: "呢件事实在太好笑。",
+                cantonesePinyin: "Ni1 gin6 si6 sat6 zoi6 taai3 hou2 siu3."
+            },
+            {
+                mandarin: "特别",
+                english: "especially",
+                cantonese: "特别",
+                pinyin: "dak6 bit6",
+                mandarinSentence: "今天的菜特别好吃。",
+                englishSentence: "The food is especially delicious today.",
+                cantoneseSentence: "今日啲餸特别好食。",
+                cantonesePinyin: "Gam1 jat6 di1 sung3 dak6 bit6 hou2 sik6."
+            },
+            {
+                mandarin: "超级",
+                english: "super; extremely",
+                cantonese: "超级",
+                pinyin: "ciu1 kap1",
+                mandarinSentence: "这个游戏超级好玩。",
+                englishSentence: "This game is super fun.",
+                cantoneseSentence: "呢个游戏超级好玩。",
+                cantonesePinyin: "Ni1 go3 jau4 hei3 ciu1 kap1 hou2 waan2."
+            },
+            {
+                mandarin: "极其",
+                english: "extremely; exceedingly",
+                cantonese: "极之",
+                pinyin: "gik6 zi1",
+                mandarinSentence: "这件事极其重要。",
+                englishSentence: "This matter is extremely important.",
+                cantoneseSentence: "呢件事极之重要。",
+                cantonesePinyin: "Ni1 gin6 si6 gik6 zi1 zung6 jiu3."
+            },
+            {
+                mandarin: "相当",
+                english: "quite; fairly",
+                cantonese: "相当",
+                pinyin: "soeng1 dong1",
+                mandarinSentence: "成绩相当不错。",
+                englishSentence: "The results are quite good.",
+                cantoneseSentence: "成绩相当唔错。",
+                cantonesePinyin: "Sing4 zik1 soeng1 dong1 m4 co3."
+            },
+            {
+                mandarin: "太过；过分",
+                english: "too; excessively",
+                cantonese: "太过",
+                pinyin: "taai3 gwo3",
+                mandarinSentence: "你太过分了！",
+                englishSentence: "You've gone too far!",
+                cantoneseSentence: "你太过份啦！",
+                cantonesePinyin: "Nei5 taai3 gwo3 fan6 laa1!"
+            },
+            {
+                mandarin: "最",
+                english: "most; -est",
+                cantonese: "最",
+                pinyin: "zeoi3",
+                mandarinSentence: "你是我最好的朋友。",
+                englishSentence: "You're my best friend.",
+                cantoneseSentence: "你系我最好嘅朋友。",
+                cantonesePinyin: "Nei5 hai6 ngo5 zeoi3 hou2 ge3 pang4 jau5."
+            },
+            {
+                mandarin: "更加",
+                english: "even more",
+                cantonese: "更加",
+                pinyin: "gang3 gaa1",
+                mandarinSentence: "我现在更加明白。",
+                englishSentence: "I understand even more now.",
+                cantoneseSentence: "我而家更加明白。",
+                cantonesePinyin: "Ngo5 ji4 gaa1 gang3 gaa1 ming4 baak6."
+            },
+            {
+                mandarin: "越来越",
+                english: "more and more",
+                cantonese: "越嚟越",
+                pinyin: "jyut6 lai4 jyut6",
+                mandarinSentence: "这个小孩越来越乖。",
+                englishSentence: "This child is getting more and more well-behaved.",
+                cantoneseSentence: "个细路越嚟越乖。",
+                cantonesePinyin: "Go3 sai3 lou6 jyut6 lai4 jyut6 gwaai1."
+            },
+            {
+                mandarin: "比较",
+                english: "comparatively; relatively",
+                cantonese: "比较",
+                pinyin: "bei2 gaau3",
+                mandarinSentence: "他比较高。",
+                englishSentence: "He's relatively tall.",
+                cantoneseSentence: "佢比较高。",
+                cantonesePinyin: "Keoi5 bei2 gaau3 gou1."
+            },
+            {
+                mandarin: "算；还算",
+                english: "quite; rather",
+                cantonese: "算",
+                pinyin: "syun3",
+                mandarinSentence: "你算不错了。",
+                englishSentence: "You're quite good.",
+                cantoneseSentence: "你算唔错喇。",
+                cantonesePinyin: "Nei5 syun3 m4 co3 laa3."
+            },
+            {
+                mandarin: "有点",
+                english: "somewhat; a bit",
+                cantonese: "有啲",
+                pinyin: "jau5 di1",
+                mandarinSentence: "我有点累。",
+                englishSentence: "I'm a bit tired.",
+                cantoneseSentence: "我有啲攰。",
+                cantonesePinyin: "Ngo5 jau5 di1 gui6."
+            },
+            {
+                mandarin: "这么；那么",
+                english: "so; such",
+                cantonese: "咁",
+                pinyin: "gam2",
+                mandarinSentence: "你为什么这么聪明？",
+                englishSentence: "Why are you so smart?",
+                cantoneseSentence: "你点解咁聪明？",
+                cantonesePinyin: "Nei5 dim2 gaai2 gam2 cung1 ming4?"
+            },
+            {
+                mandarin: "挺；相当",
+                english: "quite; rather",
+                cantonese: "几",
+                pinyin: "gei2",
+                mandarinSentence: "这家餐厅挺好。",
+                englishSentence: "This restaurant is quite good.",
+                cantoneseSentence: "呢间餐厅几好。",
+                cantonesePinyin: "Ni1 gaan1 caan1 teng1 gei2 hou2."
+            },
+            {
+                mandarin: "不太",
+                english: "not very",
+                cantonese: "唔系几",
+                pinyin: "m4 hai6 gei2",
+                mandarinSentence: "今天不太舒服。",
+                englishSentence: "I'm not feeling very well today.",
+                cantoneseSentence: "今日唔系几舒服。",
+                cantonesePinyin: "Gam1 jat6 m4 hai6 gei2 syu1 fuk6."
+            },
+            {
+                mandarin: "多么",
+                english: "how; what a",
+                cantonese: "几咁",
+                pinyin: "gei2 gam2",
+                mandarinSentence: "你知不知道我多么担心你？",
+                englishSentence: "Do you know how worried I am about you?",
+                cantoneseSentence: "你知唔知我几咁担心你？",
+                cantonesePinyin: "Nei5 zi1 m4 zi1 ngo5 gei2 gam2 daam1 sam1 nei5?"
+            }
+        ];
+
+        // ========== 页面交互功能 ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const backBtn = document.getElementById('backBtn');
+            const homeContent = document.getElementById('homeContent');
+            const moduleContainer = document.getElementById('moduleContainer');
+            const moduleCards = document.querySelectorAll('.module-card');
+            
+            // 模块卡片点击事件
+            moduleCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const moduleType = this.getAttribute('data-module');
+                    loadModule(moduleType);
+                    
+                    // 显示模块内容，隐藏首页
+                    homeContent.style.display = 'none';
+                    moduleContainer.classList.add('active');
+                    backBtn.style.display = 'block';
+                });
+            });
+            
+            // 返回按钮点击事件
+            backBtn.addEventListener('click', function() {
+                homeContent.style.display = 'block';
+                moduleContainer.classList.remove('active');
+                moduleContainer.innerHTML = '';
+                backBtn.style.display = 'none';
+            });
+            
+            // 初始化第一个模块的数据（如果需要）
+            initializeData();
+        });
+        
+        // ========== 加载模块函数 ==========
+        function loadModule(moduleType) {
+            let moduleData, moduleTitle, moduleDesc;
+            
+            // 根据模块类型选择数据
+            switch(moduleType) {
+                case 'body-pain':
+                    moduleData = painVocab;
+                    moduleTitle = '身体疼痛词汇';
+                    moduleDesc = '学习20个关于身体疼痛的粤语词汇';
+                    break;
+                case 'adjectives1':
+                    moduleData = adjectives1;
+                    moduleTitle = '日常形容词(1)';
+                    moduleDesc = '学习20个日常形容词';
+                    break;
+                case 'adjectives2':
+                    moduleData = adjectives2;
+                    moduleTitle = '日常形容词(2)';
+                    moduleDesc = '学习20个更多日常形容词';
+                    break;
+                case 'daily-verbs':
+                    moduleData = dailyVerbs;
+                    moduleTitle = '日常动词';
+                    moduleDesc = '学习20个日常生活常用动词';
+                    break;
+                case 'basic-verbs':
+                    moduleData = basicVerbs;
+                    moduleTitle = '基本动词';
+                    moduleDesc = '学习20个基本动作和移动动词';
+                    break;
+                case 'adverbs':
+                    moduleData = adverbs;
+                    moduleTitle = '程度副词';
+                    moduleDesc = '学习20个描述程度的副词';
+                    break;
+            }
+            
+            // 生成模块HTML
+            const moduleHTML = `
+                <div class="module-content active">
+                    <h2 class="module-h2">${moduleTitle}</h2>
+                    <div class="instructions">点击卡片翻转查看粤语发音</div>
+                    <div class="vocab-grid" id="moduleVocabGrid"></div>
+                    
+                    <h2 class="module-h2">例句练习</h2>
+                    <div class="instructions">点击句子在普通话/英语和粤语之间切换</div>
+                    <div class="example-section">
+                        <div class="example-list" id="moduleExampleList"></div>
+                    </div>
+                </div>
+            `;
+            
+            // 更新模块容器
+            const moduleContainer = document.getElementById('moduleContainer');
+            moduleContainer.innerHTML = moduleHTML;
+            
+            // 生成词汇卡片
+            generateVocabularyCards('moduleVocabGrid', moduleData);
+            
+            // 生成例句列表
+            generateExampleList('moduleExampleList', moduleData);
+        }
+        
+        // ========== 初始化数据函数 ==========
+        function initializeData() {
+            // 这里可以预加载一些数据或做其他初始化
+            console.log('粤语学习合集已初始化');
+        }
+        
+        // ========== 通用生成函数 ==========
+        function generateVocabularyCards(containerId, data) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            data.forEach(item => {
+                const flipCard = document.createElement('div');
+                flipCard.className = 'flip-card';
+                flipCard.innerHTML = `
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="mandarin-word">${item.mandarin}</div>
+                            <div class="english-word">${item.english}</div>
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="cantonese-word">${item.cantonese}</div>
+                            <div class="cantonese-pinyin">${item.pinyin}</div>
+                        </div>
+                    </div>
+                `;
+                
+                flipCard.addEventListener('click', function() {
+                    flipCard.classList.toggle('flipped');
+                    if (flipCard.classList.contains('flipped')) {
+                        speakCantonese(item.cantonese);
+                    }
+                });
+                
+                container.appendChild(flipCard);
+            });
+        }
+        
+        function generateExampleList(containerId, data) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            data.forEach(item => {
+                const exampleItem = document.createElement('div');
+                exampleItem.className = 'example-item';
+                exampleItem.innerHTML = `
+                    <div class="example-mandarin">${item.mandarinSentence}</div>
+                    <div class="example-english">${item.englishSentence}</div>
+                    <div class="example-cantonese">${item.cantoneseSentence}</div>
+                    <div class="example-pinyin">${item.cantonesePinyin}</div>
+                `;
+                
+                exampleItem.addEventListener('click', function() {
+                    exampleItem.classList.toggle('active');
+                    if (exampleItem.classList.contains('active')) {
+                        speakCantonese(item.cantoneseSentence);
+                    }
+                });
+                
+                container.appendChild(exampleItem);
+            });
+        }
+        
+        // ========== 语音合成函数 ==========
+        function speakCantonese(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-HK';
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('您的浏览器不支持语音合成功能');
+            }
+        }
+    </script>
+</body>
+</html>
